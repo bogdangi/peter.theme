@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules
+    xmlns="http://namespaces.plone.org/diazo"
+    xmlns:css="http://namespaces.plone.org/diazo/css"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+    <!-- Apply the following rules to standard Plone pages -->
+    <xsl:template css:match="#portal-globalnav li.selected">
+	    <li>
+		    <xsl:attribute name="class">active <xsl:value-of select="./@class" /></xsl:attribute>
+		    <xsl:apply-templates />
+	    </li>
+    </xsl:template>
+    <xsl:template css:match="#content-core .item">
+	    <div>
+		    <xsl:attribute name="class">article <xsl:value-of select="./@class" /></xsl:attribute>
+		    <xsl:apply-templates />
+	    </div>
+    </xsl:template>
+    <xsl:template css:match=".portletHeader span">
+		    <xsl:apply-templates />
+    </xsl:template>
+    <xsl:template css:match=".portletHeader">
+	    <h2>
+		    <xsl:attribute name="class">star <xsl:value-of select="./@class" /></xsl:attribute>
+		    <xsl:apply-templates />
+	    </h2>
+    </xsl:template>
+    <xsl:template css:match=".portletStaticText">
+	    <div>
+		    <xsl:attribute name="class">gadget <xsl:value-of select="./@class" /></xsl:attribute>
+		    <xsl:apply-templates />
+	    </div>
+    </xsl:template>
+    <xsl:template css:match=".portletItem">
+		    <xsl:apply-templates />
+    </xsl:template>
+    <replace theme="/html/head/title" content="/html/head/title" />
+    <replace css:theme="div.logo h1 a" css:content="#portal-logo" />
+    <replace css:theme="div.menu_nav ul" css:content="#portal-globalnav" />
+    <drop css:theme-children=".mainbar" />
+    <drop css:theme-children=".sidebar" />
+    <before css:theme-children=".sidebar" css:content-children="#portal-column-two" />
+    <before css:theme-children=".mainbar" css:content="#content-core .item" />
+    <theme href="index.html" />
+    <rules css:if-content="body.section-support">
+	    <theme href="support.html" />
+    </rules>
+
+</rules>
