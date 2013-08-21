@@ -11,11 +11,15 @@
 		    <xsl:apply-templates />
 	    </li>
     </xsl:template>
-    <xsl:template css:match="#content-core .item">
+    <before css:theme-children=".mainbar" css:content="#content" css:if-not-content=".template-all_content"/>
+    <xsl:template css:match=".template-all_content #content-core .item">
 	    <div>
 		    <xsl:attribute name="class">article <xsl:value-of select="./@class" /></xsl:attribute>
 		    <xsl:apply-templates />
 	    </div>
+    </xsl:template>
+    <xsl:template css:match=".headline .summary.url">
+		    <xsl:apply-templates />
     </xsl:template>
     <xsl:template css:match=".portletHeader span">
 		    <xsl:apply-templates />
@@ -32,19 +36,41 @@
 		    <xsl:apply-templates />
 	    </div>
     </xsl:template>
+    <xsl:template css:match="#content-core .listingBar .next, #content-core .listingBar .previous"/>
+    <xsl:template css:match="#content-core .listingBar">
+	    <p>
+		    <xsl:attribute name="class">pages <xsl:value-of select="./@class" /></xsl:attribute>
+            <xsl:apply-templates select="./a|./span"/>
+            <small>Page <xsl:value-of select="./span[last()]" /> of <xsl:value-of select="./*[last()]" /></small>
+	    </p>
+    </xsl:template>
     <xsl:template css:match=".portletItem">
 		    <xsl:apply-templates />
     </xsl:template>
     <replace theme="/html/head/title" content="/html/head/title" />
     <replace css:theme="div.logo h1 a" css:content="#portal-logo" />
     <replace css:theme="div.menu_nav ul" css:content="#portal-globalnav" />
+    <after css:theme="div.menu_nav ul li" css:content="#siteaction-contact" />
     <drop css:theme-children=".mainbar" />
     <drop css:theme-children=".sidebar" />
     <before css:theme-children=".sidebar" css:content-children="#portal-column-two" />
     <before css:theme-children=".mainbar" css:content="#content-core .item" />
+    <before css:theme-children=".mainbar" css:content="#content-core .listingBar" />
     <theme href="index.html" />
+    <xsl:template css:match=".documentFirstHeading">
+        <h2>
+            <xsl:apply-templates />
+        </h2>
+    </xsl:template>
+    <xsl:template css:match="#content">
+        <div>
+            <xsl:attribute name="class">article <xsl:value-of select="./@class" /></xsl:attribute>
+            <xsl:apply-templates />
+        </div>
+    </xsl:template>
     <rules css:if-content="body.section-support">
-	    <theme href="support.html" />
+        <theme href="support.html"/>
     </rules>
+    <theme href="about.html" css:if-content="body.section-about-us" />
 
 </rules>
